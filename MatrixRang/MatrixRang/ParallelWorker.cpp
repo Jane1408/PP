@@ -1,23 +1,17 @@
 #include "stdafx.h"
-#include "RangFinder.h"
+#include "ParallelWorker.h"
 #include <thread>
 
-CRangFinder::CRangFinder()
+
+CParallelWorker::CParallelWorker()
 {
 }
 
-
-CRangFinder::~CRangFinder()
+CParallelWorker::~CParallelWorker()
 {
 }
 
-void CRangFinder::SetThreadCount(size_t value)
-{
-	m_threadsCounter = std::max(value, size_t(1));
-	m_threadsCounter = std::min(m_threadsCounter, size_t(16));
-}
-
-void WorkWithPart(size_t startIndex, size_t endIndex, std::shared_ptr<Matrix> m_matrix)
+void WorkWithPart(size_t startIndex, size_t endIndex, std::shared_ptr<Matrix> matrix)
 {
 	auto divisionVector = [&](std::vector<double> &vec, double number)
 	{
@@ -45,15 +39,19 @@ void WorkWithPart(size_t startIndex, size_t endIndex, std::shared_ptr<Matrix> m_
 
 	for (size_t i = startIndex; i < endIndex; ++i)
 	{
-		divisionVector((*m_matrix)[i], (*m_matrix)[i][i]);
-		for (size_t j = i + 1; j < m_matrix->size(); ++j)
+		divisionVector((*matrix)[i], (*matrix)[i][i]);
+		for (size_t j = i + 1; j <matrix->size(); ++j)
 		{
-			minusVector((*m_matrix)[j], multiplyVector((*m_matrix)[i], (*m_matrix)[j][i]));
+			minusVector((*matrix)[j], multiplyVector((*matrix)[i], (*matrix)[j][i]));
 		}
 	}
 }
-
-size_t CRangFinder::GetRang(Matrix const & matrix)
+void CParallelWorker::SetThreadCount(size_t value)
+{
+	m_threadsCounter = std::max(value, size_t(1));
+	m_threadsCounter = std::min(m_threadsCounter, size_t(16));
+}
+size_t CParallelWorker::GetRang(Matrix const & matrix)
 {
 	m_matrix = std::make_shared<Matrix>(matrix);
 	m_threads.clear();
@@ -76,7 +74,7 @@ size_t CRangFinder::GetRang(Matrix const & matrix)
 	return CountRang();
 }
 
-size_t CRangFinder::CountRang()
+size_t CParallelWorker::CountRang()
 {
 	size_t rang = 0;
 	for (auto &i : *m_matrix)
@@ -92,5 +90,3 @@ size_t CRangFinder::CountRang()
 	}
 	return rang;
 }
-
-

@@ -2,34 +2,32 @@
 //
 
 #include "stdafx.h"
-#include "RangFinder.h"
-
-
-Matrix CreateMatrix(size_t n)
-{
-	std::mt19937 rng;
-	std::uniform_int_distribution<>num(0, 100);
-	Matrix matrix;
-	matrix.resize(n);
-	for (size_t i = 0; i < n; ++i)
-	{
-		for (size_t j = 0; j < n; ++j)
-		{
-			matrix[i].push_back(num(rng));
-		}
-	}
-	return matrix;
-}
+#include "MatrixType.h"
+#include "CreateMatrix.h"
+#include "SuccessiveWorker.h"
+#include "ParallelWorker.h"
 
 int main(int argc, char * argv[])
 {
-	size_t threadCount = (argc == 2) ? std::atoi(argv[1]) : 1 ;
 	Matrix matr = CreateMatrix(1000);
-	CRangFinder worker;
-	size_t time = clock();
-	worker.SetThreadCount(threadCount);
-	size_t rang = worker.GetRang(matr);
-	size_t finishTime = clock();
+	size_t time = 0;
+	size_t finishTime = 0;
+	if (argc == 2)
+	{
+		size_t threadCount = std::atoi(argv[1]);
+		CParallelWorker pWoker;
+		time = clock();
+		pWoker.SetThreadCount(threadCount);
+		size_t rang = pWoker.GetRang(matr);
+		finishTime = clock();
+	}
+	else
+	{
+		CSuccessiveWorker sWoker;
+		time = clock();
+		size_t rang = sWoker.GetRang(matr);
+		finishTime = clock();
+	}
 	std::cout << (finishTime - time) / 1000.0 << std::endl;
     return 0;
 }
