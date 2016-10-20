@@ -7,13 +7,11 @@ public:
 	CRangFinder();
 	~CRangFinder();
 
-	void SetMatrix(Matrix const& matrix);
 	void SetThreadCount(size_t value);
-	size_t FindRang();
-
+	size_t GetRang(Matrix const& matrix);
 
 private:
-	size_t GetRang();
+	size_t CountRang();
 	std::shared_ptr<Matrix> m_matrix;
 	std::vector<std::thread> m_threads;
 

@@ -11,11 +11,6 @@ CRangFinder::~CRangFinder()
 {
 }
 
-void CRangFinder::SetMatrix(Matrix const & matrix)
-{
-	m_matrix = std::make_shared<Matrix>(matrix);
-}
-
 void CRangFinder::SetThreadCount(size_t value)
 {
 	m_threadsCounter = std::max(value, size_t(1));
@@ -58,8 +53,9 @@ void WorkWithPart(size_t startIndex, size_t endIndex, std::shared_ptr<Matrix> m_
 	}
 }
 
-size_t CRangFinder::FindRang()
+size_t CRangFinder::GetRang(Matrix const & matrix)
 {
+	m_matrix = std::make_shared<Matrix>(matrix);
 	m_threads.clear();
 	size_t step = size_t(m_matrix->size() / m_threadsCounter);
 	m_threads.resize(m_threadsCounter);
@@ -77,10 +73,10 @@ size_t CRangFinder::FindRang()
 	{
 		it.join();
 	}
-	return GetRang();
+	return CountRang();
 }
 
-size_t CRangFinder::GetRang()
+size_t CRangFinder::CountRang()
 {
 	size_t rang = 0;
 	for (auto &i : *m_matrix)
