@@ -154,6 +154,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AbstractWorker.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ParallelWorker.cpp" />
     <ClCompile Include="stdafx.cpp">
