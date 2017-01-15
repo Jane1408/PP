@@ -65,16 +65,20 @@ int main(int argc, char *argv[])
 	key = GetTypeSyncPrimitivesInConsole();
 	size_t clientNumber = atoi(argv[1]);
 
-	std::unique_ptr<CBank> bank = std::make_unique<CBank>(key);
+	std::shared_ptr<CBank> bank = std::make_shared<CBank>(key);
 
-	std::vector<CBankClient*> clients;
+	std::vector<std::shared_ptr<CBankClient>> clients;
 
 	for (size_t i = 0; i != clientNumber; ++i)
 	{
 		clients.push_back(bank->CreateClient());
 	}
 
-	WaitForMultipleObjects(static_cast<DWORD>(bank->GetClientsCount()), bank->GetClientsHandles(), TRUE, INFINITE);
+	while (true)
+	{
+		bank->WaitForClients();
+	}
+	//WaitForMultipleObjects(bank->GetClientsCount(), bank->GetClientsHandles(), TRUE, INFINITE);
 	
 
     return 0;

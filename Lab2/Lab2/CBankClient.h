@@ -6,12 +6,14 @@ class CBankClient
 {
 public:
 	unsigned int GetId();
+	CBankClient(CBank *bank, unsigned int id, Primitives *syncPrimitives);
 	~CBankClient() = default;
+
 private:
 	unsigned m_id;
 	CBank *m_bank;
 
-	CBankClient(CBank *bank, unsigned int id, Primitives *syncPrimitives);
+	
 	
 	static unsigned int GetSleepDuration(CBankClient *client);
 	static unsigned int GetBalanceChangeValue();

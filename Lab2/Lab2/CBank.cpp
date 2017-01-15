@@ -17,18 +17,14 @@ CBank::~CBank()
 	CloseHandle(m_syncPrimitives->hSemaphore);
 	CloseHandle(m_syncPrimitives->hEvent);
 	DeleteCriticalSection(&m_syncPrimitives->critical_section);
-	for (auto &it : m_clients)
-	{
-		delete &it;
-	}
 }
 
-CBankClient* CBank::CreateClient()
+std::shared_ptr<CBankClient> CBank::CreateClient()
 {
 	
-	unsigned int clientId = static_cast<unsigned>(m_clients.size());
-	CBankClient* client = new CBankClient(this, clientId, m_syncPrimitives.get());
-	m_clients.push_back(*client);
+	size_t clientId = m_clients.size();
+	std::shared_ptr<CBankClient> client = std::make_shared<CBankClient>(this, clientId, m_syncPrimitives.get());
+	m_clients.push_back(client);
 	return client;
 }
 
@@ -72,10 +68,15 @@ HANDLE * CBank::GetClientsHandles() const
 
 	for (auto const& client : m_clients)
 	{
-		handles.push_back(client.m_handle);
+		handles.push_back(client->m_handle);
 	}
 	HANDLE* x = handles.data();
 	return x;
+}
+
+DWORD CBank::WaitForClients()
+{
+	return WaitForMultipleObjects(m_clients.size(), GetClientsHandles(), TRUE, INFINITE);
 }
 
 int CBank::GetTotalBalance()
