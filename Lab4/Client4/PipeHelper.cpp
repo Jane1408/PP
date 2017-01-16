@@ -11,7 +11,7 @@ CPipeHelper::~CPipeHelper()
 {
 }
 
-void CPipeHelper::WaitingMassages(std::vector<std::string>& messages, size_t massageNumber, std::string const& pipeName)
+void CPipeHelper::WaitMessages(std::vector<std::string>& messages, size_t massageNumber, std::string const& pipeName)
 {
 	std::wstring wName(pipeName.begin(), pipeName.end());
 	HANDLE hPipe = CreateNamedPipe(wName.data(),
@@ -46,7 +46,7 @@ void CPipeHelper::WaitingMassages(std::vector<std::string>& messages, size_t mas
 	CloseHandle(hPipe);
 }
 
-void CPipeHelper::SendMassage(std::string const & massage, std::string const& pipeName)
+void CPipeHelper::SendMessage(std::string const & massage, std::string const& pipeName)
 {
 	HANDLE hPipe;
 	std::wstring wName(pipeName.begin(), pipeName.end());

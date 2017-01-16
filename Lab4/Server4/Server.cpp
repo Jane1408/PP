@@ -21,17 +21,17 @@ CServer::~CServer()
 
 void CServer::StartServer()
 {
-	std::vector<std::string> massagesList;
+	std::vector<std::string> messageList;
 
 
-	CPipeHelper::WaitingMassages(std::vector<std::string>(), m_processCount, READY_PIPE);
+	CPipeHelper::WaitMessages(std::vector<std::string>(), m_processCount, READY_PIPE);
 	std::cout << "Clients ready" << std::endl;
 	system("pause");
 
 	for (auto i = 0; i < m_processCount; ++i)
 	{
-		CPipeHelper::SendMassage(std::to_string(m_iterationsCount), START_WORK_PIPE);
+		CPipeHelper::SendMessage(std::to_string(m_iterationsCount), START_WORK_PIPE);
 	}
 
-	CPipeHelper::WaitingMassages(std::ref(massagesList), m_processCount, GET_PI_PIPE);
+	CPipeHelper::WaitMessages(std::ref(messageList), m_processCount, GET_PI_PIPE);
 }
