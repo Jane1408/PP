@@ -28,6 +28,8 @@ void CServer::StartServer()
 	std::cout << "Clients ready" << std::endl;
 	system("pause");
 
+	m_iterationsCount = m_iterationsCount / m_processCount;
+
 	for (auto i = 0; i < m_processCount; ++i)
 	{
 		CPipeHelper::SendMessage(std::to_string(m_iterationsCount), START_WORK_PIPE);
