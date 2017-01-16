@@ -5,15 +5,19 @@
 #include "Server.h"
 namespace
 {
-	const std::string USAGE = "Error!!! Usage Server.exe <Iterations count> <Process count>";
-	//TODO: отдельной функцией
+
+	void ShowUsage()
+	{
+		std::cout << "Error!!!Usage Server.exe <Iterations count> <Process count>" << std::endl;
+	}
+	//TODO: отдельной функцией (fixed)
 }
 
 int main(int argc, char *argv[])
 {
 	if(argc < 3)
 	{
-		std::cout << USAGE << std::endl;
+		ShowUsage();
 		return 1;
 	}
 	CServer server(std::atoi(argv[2]), std::atoi(argv[1]));
