@@ -26,8 +26,8 @@ void CPipeHelper::WaitMessages(std::vector<std::string>& messages, size_t massag
 		return;
 	}
 
-	size_t massageCount = 0;
-	while (massageCount < massageNumber)
+	size_t messageCount = 0;
+	while (messageCount < massageNumber)
 	{
 		if (ConnectNamedPipe(hPipe, NULL) != FALSE)
 		{
@@ -39,7 +39,7 @@ void CPipeHelper::WaitMessages(std::vector<std::string>& messages, size_t massag
 			}
 			messages.push_back(buffer);
 			std::cout << buffer << std::endl;
-			++massageCount;
+			++messageCount;
 		}
 		DisconnectNamedPipe(hPipe);
 	}
