@@ -10,7 +10,6 @@ namespace
 	{
 		std::cout << "Error!!!Usage Server.exe <Iterations count> <Process count>" << std::endl;
 	}
-	//TODO: отдельной функцией (fixed)
 }
 
 int main(int argc, char *argv[])
