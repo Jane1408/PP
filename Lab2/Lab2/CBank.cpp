@@ -42,7 +42,7 @@ void CBank::UpdateClientBalance(CBankClient &client, int value)
 		<< ". Must be: " << (totalBalance + value) << "." << std::endl;
 
 	bool isAccepteble = false;
-	if (totalBalance + value > 0)
+	if (totalBalance + value >= 0)
 	{
 		SetTotalBalance(GetTotalBalance() + value);
 		std::cout << "Total Balance = " << GetTotalBalance() << std::endl;

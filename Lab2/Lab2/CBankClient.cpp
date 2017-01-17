@@ -1,16 +1,6 @@
 #include "stdafx.h"
+#include "random.h"
 #include "CBankClient.h"
-
-namespace
-{
-	int GetRandomNumber(int max, int min)
-	{
-		std::random_device e;
-		std::mt19937 gen(e());
-		std::uniform_int_distribution<> range(min, max);
-		return range(gen);
-	}
-}
 
 CBankClient::CBankClient(CBank *bank, unsigned int id, Primitives *primitives)
 	: m_syncPrimitives(primitives)
@@ -77,9 +67,7 @@ DWORD WINAPI CBankClient::ThreadFunction(LPVOID lpParam)
 {
 	
 	CBankClient *client = (CBankClient*)lpParam;
-	
-	srand(client->m_id);
-	
+
 	while (true)
 	{
 		SomeLongOperation(GetSleepDuration(client));

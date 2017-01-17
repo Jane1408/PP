@@ -41,7 +41,7 @@ PrimitiveType GetTypeSyncPrimitivesInConsole()
 			<< " (critical section, mutex, semaphore, event or NAN ) : ";
 		std::getline(std::cin, val);
 		isAccepted = GetPrimitiveType(val, type);
-		if (val == "help")
+		if (val == "help" || val == "/?")
 		{
 			ShowUsage();
 		}
@@ -61,6 +61,12 @@ int main(int argc, char *argv[])
 		std::cerr << "Error! Usage program.exe <client number> " << std::endl;
 		return EXIT_FAILURE;
 	}
+	if (argv[2] == "/?")
+	{
+		ShowUsage();
+		return 0;
+	}
+	
 	PrimitiveType key;
 	key = GetTypeSyncPrimitivesInConsole();
 	size_t clientNumber = atoi(argv[1]);
@@ -73,8 +79,6 @@ int main(int argc, char *argv[])
 	{
 		clients.push_back(bank->CreateClient());
 	}
-
 	bank->WaitForClients();
-	
     return 0;
 }
