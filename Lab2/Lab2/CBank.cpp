@@ -25,6 +25,7 @@ std::shared_ptr<CBankClient> CBank::CreateClient()
 	size_t clientId = m_clients.size();
 	std::shared_ptr<CBankClient> client = std::make_shared<CBankClient>(this, clientId, m_syncPrimitives.get());
 	m_clients.push_back(client);
+	m_threads.emplace_back(CreateThread(NULL, 0, &client->ThreadFunction, &*client, 0, NULL));
 	return client;
 }
 
@@ -62,21 +63,9 @@ size_t CBank::GetClientsCount() const
 	return m_clients.size();
 }
 
-HANDLE * CBank::GetClientsHandles() const
-{
-	std::vector<HANDLE> handles;
-
-	for (auto const& client : m_clients)
-	{
-		handles.push_back(client->m_handle);
-	}
-	HANDLE* x = handles.data();
-	return x;
-}
-
 DWORD CBank::WaitForClients()
 {
-	return WaitForMultipleObjects(m_clients.size(), GetClientsHandles(), TRUE, INFINITE);
+	return WaitForMultipleObjects(m_clients.size(), m_threads.data()/*GetClientsHandles()*/, TRUE, INFINITE);
 }
 
 int CBank::GetTotalBalance()

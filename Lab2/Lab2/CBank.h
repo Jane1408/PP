@@ -10,13 +10,12 @@ public:
 	std::shared_ptr<CBankClient> CreateClient();
 	void UpdateClientBalance(CBankClient& client, int value);
 	size_t GetClientsCount() const;
-	HANDLE* GetClientsHandles() const;
 	DWORD WaitForClients();
 private:
 	std::vector<std::shared_ptr<CBankClient>> m_clients;
 	int m_totalBalance;
 	std::shared_ptr<Primitives> m_syncPrimitives;
-
+	std::vector<HANDLE> m_threads;
 	
 	int GetTotalBalance();
 	void SetTotalBalance(int value);

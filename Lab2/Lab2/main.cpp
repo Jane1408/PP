@@ -74,12 +74,7 @@ int main(int argc, char *argv[])
 		clients.push_back(bank->CreateClient());
 	}
 
-	while (true)
-	{
-		bank->WaitForClients();
-	}
-	//WaitForMultipleObjects(bank->GetClientsCount(), bank->GetClientsHandles(), TRUE, INFINITE);
+	bank->WaitForClients();
 	
-
     return 0;
 }
