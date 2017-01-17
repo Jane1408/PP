@@ -23,7 +23,6 @@ private:
 
 	friend CBank;
 
-	HANDLE m_handle;
 	Primitives *m_syncPrimitives = nullptr;
 
 };

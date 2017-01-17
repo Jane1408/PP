@@ -11,7 +11,7 @@
 #include <tchar.h>
 #include <memory>
 #include <functional>
-
+#include <random>
 #include "Primitives.h"
 
 // TODO: reference additional headers your program requires here
