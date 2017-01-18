@@ -79,11 +79,11 @@ DWORD WINAPI CBankClient::ThreadFunction(LPVOID lpParam)
 
 unsigned int CBankClient::GetSleepDuration(CBankClient *client)
 {
-	return GetRandomNumber(1000, 3999);
+	return myRandom::GetRandomNumber(1000, 3999);
 }
 
 
 unsigned int CBankClient::GetBalanceChangeValue()
 {
-	return GetRandomNumber(-100, 100);
+	return myRandom::GetRandomNumber(-100, 100);
 }

@@ -1,3 +1,6 @@
 #pragma once
 
-int GetRandomNumber(int min, int max);
+namespace myRandom
+{
+	int GetRandomNumber(int min, int max);
+}
